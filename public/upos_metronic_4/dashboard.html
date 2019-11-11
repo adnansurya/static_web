@@ -36,20 +36,7 @@
 		<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 
 		<!--begin:: Vendor Plugins for custom pages -->
-		
-		<link href="assets/plugins/custom/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-autofill-bs4/css/autoFill.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-colreorder-bs4/css/colReorder.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-fixedcolumns-bs4/css/fixedColumns.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-keytable-bs4/css/keyTable.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-rowgroup-bs4/css/rowGroup.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-rowreorder-bs4/css/rowReorder.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-scroller-bs4/css/scroller.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />	
-
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.css">
 		<!--end:: Vendor Plugins for custom pages -->
 
 		<!--end::Global Theme Styles -->
@@ -345,7 +332,7 @@
 													</div>
 												</div>
 												<div class="kt-portlet__body">
-													<div id="kt_flotcharts_1" style="height: 300px;"></div>
+													<canvas id="myChart" width="400" height="150"></canvas>
 												</div>
 											</div>
 											<!--end::Portlet-->
@@ -366,7 +353,7 @@
 													</div>
 												</div>
 												<div class="kt-portlet__body">
-													<div id="kt_flotcharts_2" style="height: 300px;"></div>
+														<canvas id="myChart3" width="400" height="150"></canvas>
 												</div>
 											</div>
 											<!--end::Portlet-->
@@ -385,7 +372,7 @@
 													</div>
 												</div>
 												<div class="kt-portlet__body">
-													<div id="kt_flotcharts_3" style="height: 300px;"></div>
+													<canvas id="myChart2" width="400" height="150"></canvas>
 												</div>
 											</div>
 											<!--end::Portlet-->
@@ -466,7 +453,7 @@
 													</div>
 												</div>
 												<div class="kt-portlet__body">
-													<div id="kt_flotcharts_4" style="height: 300px;"></div>
+													<canvas id="myChart4" width="400" height="300"></canvas>
 												</div>
 											</div>
 											<!--end::Portlet-->
@@ -485,7 +472,7 @@
 													</div>
 												</div>
 												<div class="kt-portlet__body">
-													<div id="kt_flotcharts_5" style="height: 300px;"></div>
+													<canvas id="myChart5" width="400" height="300"></canvas>
 												</div>
 											</div>
 											<!--end::Portlet-->
@@ -509,15 +496,17 @@
 													<div class="row">
 														<div class="col-md-4">
 															<h5 class="text-center">KONSINYASI</h5>
-															<div id="kt_flotcharts_6" style="height: 200px"></div>
+															<canvas id="myChart6" width="400" height="200"></canvas>
 														</div>
 														<div class="col-md-4">
 															<h5 class="text-center">MINUMAN KEMASAN</h5>
-															<div id="kt_flotcharts_7" style="height: 200px;"></div>
+															<canvas id="myChart7" width="400" height="200"></canvas>
+															<!-- <div id="kt_flotcharts_7" style="height: 200px;"></div> -->
 														</div>
 														<div class="col-md-4">
 															<h5 class="text-center">VOUCHER</h5>
-															<div id="kt_flotcharts_8" style="height: 200px;"></div>
+															<canvas id="myChart8" width="400" height="200"></canvas>
+															<!-- <div id="kt_flotcharts_8" style="height: 200px;"></div> -->
 														</div>
 													</div>																										
 												</div>
@@ -629,6 +618,8 @@
 		<script src="assets/plugins/custom/flot/source/jquery.flot.axislabels.js" type="text/javascript"></script>
 		<script src="assets/plugins/custom/datatables.net/js/jquery.dataTables.js" type="text/javascript"></script>
 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels"></script>
 		<!--end:: Vendor Plugins for custom pages -->
 
 		<!--end::Global Theme Bundle -->
@@ -640,296 +631,468 @@
 
 		<!--begin::Page Scripts(used by this page) -->		
 		<script>
+			function randomNumbers(limit, capacity){
+				randoms = [];
+				for(i=0; i<capacity; i++){
+					let number = Math.round(Math.random()*limit);
+					randoms.push(number);
+				}
+				return randoms;
+			}
+
+			// begin::Line Chart(Chart 1)
+			var tanggal = [];
+			for(i=0; i<30 ;i++){
+				tanggal.push(i+1);
+			}
+
+			var dailyGrossSales = randomNumbers(200, 30);
+			
+			
+			
+			var myLineChart = new Chart(document.getElementById('myChart'), {
+				type: 'line',
+				data: {
+					labels: tanggal,
+					datasets: [{ 
+						data: dailyGrossSales,
+						label: "Penjualan",
+						borderColor: "#3e95cd",
+						fill: true
+						}
+					]
+				},
+				options: {
+					responsive: true,
+					legend: {
+					position: 'bottom',
+					},
+					title: {
+						display: false,
+						text: 'Daily Gross Sales'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Jumlah'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Tanggal'
+							}
+						}],
+					}
+				}
+			});
+			// end::Line Chart(Chart 1)
+			
+			// begin::Line Chart 2(Chart 3)
+			var jam = [];
+			for(i=0; i<24 ;i++){
+				jam.push(i+1);
+			}
+
+			var hourlyGrossSales = randomNumbers(50, 24);
+			
+					
+			var myLineChart2 = new Chart(document.getElementById('myChart2'), {
+				type: 'line',
+				data: {
+					labels: jam,
+					datasets: [{ 
+						data: hourlyGrossSales,
+						label: "Penjualan",
+						borderColor: "#3e95cd",
+						fill: true
+						}
+					]
+				},
+				options: {
+					responsive: true,
+					legend: {
+					position: 'bottom',
+					},
+					title: {
+						display: false,
+						text: 'Hourly Gross Sales'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Jumlah'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Jam'
+							}
+						}],
+					}
+				}
+			});
+			// end::Line Chart 2(Chart 3)
+				
+	
+			// begin::Bar Chart(Chart 2)
+			
+			// -------- membuat label waktu --------------
+			var waktu = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 			
+			// -------- membuat label waktu --------------
+
+			var data_grafik_1 = randomNumbers(100, 7);
+
+			var ctx1 = new Chart(document.getElementById("myChart3"), {
+				type: 'bar',
+				data: {
+					labels: waktu,
+					datasets: [
+						{
+							label: "Penjualan",
+							backgroundColor: "#3e95cd",
+							data: data_grafik_1
+						}
+					]
+				},
+				options: {
+					legend: { display: false },
+					title: {
+						display: false,
+						text: 'Day of The Week Gross Sales'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Penjualan'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'Hari'
+							}
+						}],
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var dataset = data.datasets[tooltipItem.datasetIndex];
+							var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+								return previousValue + currentValue;
+							});
+							var currentValue = dataset.data[tooltipItem.index];
+								
+							return "Rp. " + currentValue ;
+							}
+						}
+					}
+				}
+			});
+
+			// end::Bar Chart(Chart 2)
+				
+			// begin::Pie Chart(Chart 4)
+			var randomScalingFactor = function() {
+				return Math.round(Math.random() * 100);
+			};
+			var randomColorFactor = function() {
+				return Math.round(Math.random() * 255);
+			};
+			var randomColor = function(opacity) {
+				return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+			};
+
+			var config = {
+				type: 'outlabeledPie',				
+				data: {
+					labels: ["Minuman Kemasan", "Voucher", "Konsinyasi"],
+					datasets: [
+							{
+							label: "Category by Volume",
+							backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+							data: [2478,5267,734]
+							}
+						]
+				},
+				plugins: {
+						legend: false,
+						outlabels: {
+						text: '%l %p %v',
+						color: 'white',
+						stretch: 45,
+						font: {
+							resizable: true,
+							minSize: 12,
+							maxSize: 18
+						}
+					}
+				},
+				options: {
+					legend :{
+						display:false
+					},
+					responsive: true,					
+					title: {
+						display: false,
+						text: 'Category by Volume'
+					},
+					animation: {
+					animateScale: true,
+					animateRotate: true
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+							var dataset = data.datasets[tooltipItem.datasetIndex];
+							var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+								return previousValue + currentValue;
+							});
+							var currentValue = dataset.data[tooltipItem.index];
+							var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+							return currentValue;
+							}
+						}
+					}
+				}
+			};
+
+
+			var ctx2 = document.getElementById("myChart4").getContext("2d");
+			window.myPie = new Chart(ctx2, config); 
+			// end::Pie Chart(Chart 4)
+
+			// begin::Pie Chart(Chart 5)	
+
+			var config = {
+				type: 'outlabeledPie',
+				data: {
+					labels: ["Minuman Kemasan", "Voucher", "Konsinyasi"],
+					datasets: [
+							{
+							label: "Category by Sales",
+							backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+							data: [2478,5267,734]
+							}
+						]
+				},
+				plugins: {
+						legend: false,
+						outlabels: {
+						text: '%l %p %v',
+						color: 'white',
+						stretch: 45,
+						font: {
+							resizable: true,
+							minSize: 12,
+							maxSize: 18
+						}
+					}
+				},
+				options: {
+					legend :{
+						display:false
+					},
+					responsive: true,					
+					title: {
+						display: false,
+						text: 'Category by Sales'
+					},
+					animation: {
+					animateScale: true,
+					animateRotate: true
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+							var dataset = data.datasets[tooltipItem.datasetIndex];
+							var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+								return previousValue + currentValue;
+							});
+							var currentValue = dataset.data[tooltipItem.index];
+							var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+							return currentValue;
+							}
+						}
+					}
+				}
+			};
+
+
+			var ctx4 = document.getElementById("myChart5").getContext("2d");
+			window.myPie = new Chart(ctx4, config); 
+			// end::Pie Chart(Chart 5)
+
+
+			// begin::Bar Chart(Chart 6)
+			var data_grafik_1 = randomNumbers(1000, 3);
+
+			var ctx5 = new Chart(document.getElementById("myChart6"), {
+				type: 'bar',
+				data: {
+					labels: ['Kacang 312', 'Kripik Api', 'Roti'],
+					datasets: [
+						{
+							label: "Transaksi",
+							backgroundColor: "#3e95cd",
+							data: data_grafik_1
+						}
+					]
+				},
+				options: {
+					legend: { display: false },
+					title: {
+						display: false,
+						text: 'Grafik Rp. /  waktu'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'n Transaksi'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: false,
+								labelString: 'Kategori'
+							}
+						}],
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var dataset = data.datasets[tooltipItem.datasetIndex];
+							var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+								return previousValue + currentValue;
+							});
+							var currentValue = dataset.data[tooltipItem.index];
+								
+							return currentValue + " Transaksi";
+							}
+						}
+					}
+				}
+			});
+
+			// end::Bar Chart(Chart 6)
+
+
+
+			// begin::Bar Chart(Chart 7)
+			var data_grafik_2 = randomNumbers(1000, 3);
+
+			var ctx5 = new Chart(document.getElementById("myChart7"), {
+				type: 'bar',
+				data: {
+					labels: ['Leci Black Tea', 'Green Tea', 'Lemon Black Tea'],
+					datasets: [
+						{
+							label: "Transaksi",
+							backgroundColor: "#3e95cd",
+							data: data_grafik_2
+						}
+					]
+				},
+				options: {
+					legend: { display: false },
+					title: {
+						display: false,
+						text: 'Grafik Rp. /  waktu'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'n Transaksi'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: false,
+								labelString: 'Kategori'
+							}
+						}],
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var dataset = data.datasets[tooltipItem.datasetIndex];
+							var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+								return previousValue + currentValue;
+							});
+							var currentValue = dataset.data[tooltipItem.index];
+								
+							return currentValue + " Transaksi";
+							}
+						}
+					}
+				}
+			});
+
+			// end::Bar Chart(Chart 7)
+	
+	
+
 			
 
-				var flotChartArea1 = function() {
-					var data = [];
-					var totalPoints = 250;
-	
-					// random data generator for plot charts
-	
-					function getRandomData() {
-						if (data.length > 0) data = data.slice(1);
-						// do a random walk
-						while (data.length < totalPoints) {
-							var prev = data.length > 0 ? data[data.length - 1] : 50;
-							var y = prev + Math.random() * 10 - 5;
-							if (y < 0) y = 0;
-							if (y > 100) y = 100;
-							data.push(y);
+			// begin::Bar Chart(Chart 8)
+			var data_grafik_3 = randomNumbers(1000, 1);
+
+			var ctx5 = new Chart(document.getElementById("myChart8"), {
+				type: 'bar',
+				data: {
+					labels: ['eVoucher'],
+					datasets: [
+						{
+							label: "Transaksi",
+							backgroundColor: "#3e95cd",
+							data: data_grafik_2
 						}
-						// zip the generated y values with the x values
-						var res = [];
-						for (var i = 0; i < data.length; ++i) {
-							res.push([i, data[i]]);
+					]
+				},
+				options: {
+					legend: { display: false },
+					title: {
+						display: false,
+						text: 'Grafik Rp. /  waktu'
+					},
+					scales: {
+						yAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: 'n Transaksi'
+							}
+						}],
+						xAxes: [{
+							scaleLabel: {
+								display: false,
+								labelString: 'Kategori'
+							}
+						}],
+					},
+					tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var dataset = data.datasets[tooltipItem.datasetIndex];
+							var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+								return previousValue + currentValue;
+							});
+							var currentValue = dataset.data[tooltipItem.index];
+								
+							return currentValue + " Transaksi";
+							}
 						}
-	
-						return res;
 					}
-	
-					//server load
-					var options = {
-						colors: [KTApp.getStateColor("danger"), KTApp.getStateColor("brand")],
-						series: {
-							shadowSize: 1,
-							lines: {
-								show: true,
-								fill: true
-							}
-						},
-						lines: {
-							show: true,
-							lineWidth: 0.5,
-							fill: true,
-							fillColor: {
-								colors: [{
-									opacity: 0.1
-								}, {
-									opacity: 1
-								}]
-							}
-						},
-						yaxis: {
-							min: 0,
-							max: 100,
-							tickColor: "#eee",
-							tickFormatter: function(v) {
-								return v;
-							}
-						},
-						xaxis: {
-							show: false,
-						},
-						colors: [KTApp.getStateColor("brand")],
-						grid: {
-							tickColor: "#eee",
-							borderWidth: 0,
-						}
-					};
-	
-					var updateInterval = 30;
-					$.plot($("#kt_flotcharts_1"), [getRandomData()], options);				
-	
-					// function update() {
-					// 	plot.setData([getRandomData()]);
-					// 	plot.draw();
-					// 	setTimeout(update, updateInterval);
-					// }
-	
-					// update();
 				}
-	
-				var flotChartArea2 = function() {
-					var data = [];
-					var totalPoints = 250;
-	
-					// random data generator for plot charts
-	
-					function getRandomData() {
-						if (data.length > 0) data = data.slice(1);
-						// do a random walk
-						while (data.length < totalPoints) {
-							var prev = data.length > 0 ? data[data.length - 1] : 50;
-							var y = prev + Math.random() * 10 - 5;
-							if (y < 0) y = 0;
-							if (y > 100) y = 100;
-							data.push(y);
-						}
-						// zip the generated y values with the x values
-						var res = [];
-						for (var i = 0; i < data.length; ++i) {
-							res.push([i, data[i]]);
-						}
-	
-						return res;
-					}
-	
-					//server load
-					var options = {
-						colors: [KTApp.getStateColor("danger"), KTApp.getStateColor("brand")],
-						series: {
-							shadowSize: 1,
-							lines: {
-								show: true,
-								fill: true
-							}
-						},
-						lines: {
-							show: true,
-							lineWidth: 0.5,
-							fill: true,
-							fillColor: {
-								colors: [{
-									opacity: 0.1
-								}, {
-									opacity: 1
-								}]
-							}
-						},
-						yaxis: {
-							min: 0,
-							max: 100,
-							tickColor: "#eee",
-							tickFormatter: function(v) {
-								return v;
-							}
-						},
-						xaxis: {
-							show: false,
-						},
-						colors: [KTApp.getStateColor("brand")],
-						grid: {
-							tickColor: "#eee",
-							borderWidth: 0,
-						}
-					};
-	
-					var updateInterval = 30;
-					$.plot($("#kt_flotcharts_3"), [getRandomData()], options);				
-	
-					// function update() {
-					// 	plot.setData([getRandomData()]);
-					// 	plot.draw();
-					// 	setTimeout(update, updateInterval);
-					// }
-	
-					// update();
-				}
-	
-				var flotChartBar = function() {
-					var data = [
-						{data: [[0,1]], color:  KTApp.getStateColor("brand")},
-						{data: [[1,2]], color:  KTApp.getStateColor("brand")},
-						{data: [[2,3]], color:  KTApp.getStateColor("brand")},
-						{data: [[3,1]], color:  KTApp.getStateColor("brand")},
-						{data: [[4,2]], color:  KTApp.getStateColor("brand")},
-						{data: [[5,3]], color:  KTApp.getStateColor("brand")},
-						{data: [[6,3]], color:  KTApp.getStateColor("brand")}
-					];
-	
-					$.plot("#kt_flotcharts_2",data, {
-						series: {
-							bars: {
-							show: true,
-							barWidth: 0.3,
-							align: "center",
-							lineWidth: 0,
-							fill:.75
-							}
-						},
-						xaxis: {
-							ticks: [[0,"Sun"],[1,"Mon"],[2,"Tue"],[3,"Wed"],[4,"Thu"],[5,"Fri"],[6,"Sat"]]
-						}
-					});
-				}
-	
-	
-				var flotChartPie1 = function() {
-					var data = [
-						{label: "MINUMAN KEMASAN", data: 10, color:  KTApp.getStateColor("brand")},
-						{label: "VOUCHER", data: 60, color:  KTApp.getStateColor("success")},
-						{label: "KONSINYASI", data: 30, color:  KTApp.getStateColor("default")},				
-					];
-	
-					var plotPie1 = $.plot($("#kt_flotcharts_4"), data, {
-						series: {
-							pie: {
-								show: true
-							}
-						}
-					});			
-				}
-	
-				var flotChartPie2 = function() {
-					var data = [
-						{label: "ITEM 1", data: 40, color:  KTApp.getStateColor("brand")},
-						{label: "ITEM 2", data: 15, color:  KTApp.getStateColor("success")},
-						{label: "ITEM 3", data: 45, color:  KTApp.getStateColor("default")},				
-					];
+			});
+
+			// end::Bar Chart(Chart 8)
 				
-					var plotPie2 = $.plot($("#kt_flotcharts_5"), data, {
-						series: {
-							pie: {
-								show: true
-							}
-						}
-					});
-				}
-	
-	
-				var flotChartBar1 = function() {
-					var data = [
-						{data: [[0,4]], color:  KTApp.getStateColor("brand")},
-						{data: [[1,2]], color:  KTApp.getStateColor("brand")},
-						{data: [[2,3]], color:  KTApp.getStateColor("brand")}					
-					];
-	
-					$.plot("#kt_flotcharts_6",data, {
-						series: {
-							bars: {
-							show: true,
-							barWidth: 0.5,
-							align: "center",
-							lineWidth: 0,
-							fill:.75
-							}
-						},
-						xaxis: {
-							ticks: [[0,"Kacang 312"],[1,"Kripik Api"],[2,"Roti"]],
-							showTicks: false,
-							gridLines: false
-						}
-					});
-				}
-	
-				var flotChartBar2 = function() {
-					var data = [
-						{data: [[0,10]], color:  KTApp.getStateColor("brand")},
-						{data: [[1,4]], color:  KTApp.getStateColor("brand")},
-						{data: [[2,3]], color:  KTApp.getStateColor("brand")}					
-					];
-	
-					$.plot("#kt_flotcharts_7",data, {
-						series: {
-							bars: {
-							show: true,
-							barWidth: 0.5,
-							align: "center",
-							lineWidth: 0,
-							fill:.75
-							}
-						},
-						xaxis: {
-							ticks: [[0,"Leci Black Tea"],[1,"Green Tea"],[2,"Lemon Black Tea"]],
-							showTicks: false,
-							gridLines: false
-						}
-					});
-				}
-	
-				var flotChartBar3 = function() {
-					var data = [
-						{data: [[0,10]], color:  KTApp.getStateColor("brand")}
-									
-					];
-	
-					$.plot("#kt_flotcharts_8",data, {
-						series: {
-							bars: {
-							show: true,
-							barWidth: 0.5,
-							align: "center",
-							lineWidth: 0,
-							fill:.75
-							}
-						},
-						xaxis: {
-							ticks: [[0,"eVoucher"],[1,"Green Tea"],[2,"Lemon Black Tea"]], // ticks harus lebih dari satu untuk menghindari error
-							showTicks: false,
-							gridLines: false
-						}
-					});
-				}
 	
 				
 	
@@ -958,17 +1121,6 @@
 						dom: 'rt',
 						ordering : false
 					});
-	
-					flotChartArea1();
-					flotChartArea2();
-					flotChartBar();
-	
-					flotChartPie1();
-					flotChartPie2();
-	
-					flotChartBar1();
-					flotChartBar2();
-					flotChartBar3();
 				});
 			</script>
 		<!--end::Page Scripts -->
