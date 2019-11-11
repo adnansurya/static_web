@@ -320,7 +320,7 @@
 													</div>
 												</div>
 												<div class="kt-portlet__body">
-													<canvas id="myChart2" width="400" height="100"></canvas>
+													<canvas id="myChart2" width="400" height="150"></canvas>
 												</div>
 											</div>
 											<!--end::Portlet-->
@@ -471,6 +471,7 @@
 
 		<!--begin:: Vendor Plugins for custom pages -->		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels"></script>
 		<!--end:: Vendor Plugins for custom pages -->
 
 		<!--end::Global Theme Bundle -->
@@ -561,7 +562,7 @@
 			};
 
 			var config = {
-				type: 'pie',
+				type: 'outlabeledPie',
 				data: {
 					labels: ["Retail", "Jasa", "F&B / Resto"],
 					datasets: [
@@ -575,7 +576,8 @@
 				options: {
 					responsive: true,
 					legend: {
-					position: 'bottom',
+						display: false,
+						position: 'bottom',
 					},
 					title: {
 						display: false,
