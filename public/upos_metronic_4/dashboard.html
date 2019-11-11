@@ -45,6 +45,11 @@
 
 		<!--end::Layout Skins -->
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<style>
+			.drp-calendar.right {
+				display: none !important;
+			}						
+		</style>
 	</head>
 
 	<!-- end::Head -->
@@ -1108,11 +1113,19 @@
 						cancelClass: 'btn-secondary',
 						startDate: start,
 						endDate: end,
+						linkedCalendars: false,
 						orientation: "left",
 						locale: {
 							format: 'DD/MM/YYYY'
 						}
 					});
+
+					$(".drp-calendar.left").css(
+						{
+							"padding-right": "0px",
+							"padding-left": "40px"
+						}
+					);
 	
 				
 	
