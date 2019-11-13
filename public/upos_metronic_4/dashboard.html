@@ -710,9 +710,7 @@
 				},
 				options: {
 					responsive: true,
-					legend: {
-					position: 'bottom',
-					},
+					legend: { display: false },
 					title: {
 						display: false,
 						text: 'Hourly Gross Sales'
@@ -739,7 +737,7 @@
 			// begin::Bar Chart(Chart 2)
 			
 			// -------- membuat label waktu --------------
-			var waktu = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 			
+			var waktu = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]; 			
 			// -------- membuat label waktu --------------
 
 			var data_grafik_1 = randomNumbers(100, 7);
@@ -951,7 +949,7 @@
 						yAxes: [{
 							scaleLabel: {
 								display: true,
-								labelString: 'n Transaksi'
+								labelString: 'Kuantitas'
 							}
 						}],
 						xAxes: [{
@@ -1006,7 +1004,7 @@
 						yAxes: [{
 							scaleLabel: {
 								display: true,
-								labelString: 'n Transaksi'
+								labelString: 'Kuantitas'
 							}
 						}],
 						xAxes: [{
@@ -1063,7 +1061,7 @@
 						yAxes: [{
 							scaleLabel: {
 								display: true,
-								labelString: 'n Transaksi'
+								labelString: 'Kuantitas'
 							}
 						}],
 						xAxes: [{
